@@ -1,5 +1,6 @@
-# custom_firewall_script1.0.sh	13/01/17
-#this script can be added to AFWall+ > Settings > Set Custom Script > [/path/to/script/custom_firewall_script1.0.sh] > OK
+# custom_firewall_script1.1.sh	17/01/17
+#this script can be added to AFWall+ > Settings > Set Custom Script > [/path/to/script/custom_firewall_script1.1.sh] > OK
+
 
 #AFWALL CHAINS:
 #==============
@@ -27,14 +28,14 @@ LAN_NET="2001:db8:1::/64"	##
 DMZ_NET="2001:db8:2::/64"	##
 
 # ifconfig -a run on 09/01/17:
-# lo        Link encap:Local Loopback  
-# sit0      Link encap:IPv6-in-IPv4  
-# ip6tnl0   Link encap:UNSPEC  
+# lo        Link encap:Local Loopback
+# sit0      Link encap:IPv6-in-IPv4
+# ip6tnl0   Link encap:UNSPEC
 # wlan0     Link encap:Ethernet  HWaddr 1c:99:4c:ab:8e:f6
 # p2p0      Link encap:Ethernet  HWaddr 1e:99:4c:ab:8e:f6
-# rmnet0    Link encap:Point-to-Point Protocol  
-# rmnet1    Link encap:Point-to-Point Protocol  
-# rmnet2    Link encap:Point-to-Point Protocol  
+# rmnet0    Link encap:Point-to-Point Protocol
+# rmnet1    Link encap:Point-to-Point Protocol
+# rmnet2    Link encap:Point-to-Point Protocol
 
 #-----------------------------------------------------------
 # Set policies to drop
@@ -45,8 +46,39 @@ $IP6T -P OUTPUT DROP
 $IP6T -P FORWARD DROP
 $IP6T -P OUTPUT DROP
 
+#Undo the drop.ipt scripts rules##############################################################
+$IPT --policy INPUT ACCEPT -t mangle
+$IPT --delete INPUT -j DROP -t mangle
+$IP6T --policy INPUT ACCEPT -t mangle
+$IP6T --delete INPUT -j DROP -t mangle
+
+$IPT --policy OUTPUT ACCEPT -t mangle
+$IPT --delete OUTPUT -j DROP -t mangle
+$IP6T --policy OUTPUT ACCEPT -t mangle
+$IP6T --delete OUTPUT -j DROP -t mangle
+
+$IPT --policy FORWARD ACCEPT -t mangle
+$IPT --delete FORWARD -j DROP -t mangle
+$IP6T --policy FORWARD ACCEPT -t mangle
+$IP6T --delete FORWARD -j DROP -t mangle
+
+$IPT --policy PREROUTING ACCEPT -t mangle
+$IPT --delete PREROUTING -j DROP -t mangle
+$IP6T --policy PREROUTING ACCEPT -t mangle
+$IP6T --delete PREROUTING -j DROP -t mangle
+
+$IPT --policy POSTROUTING ACCEPT -t mangle
+$IPT --delete POSTROUTING -j DROP -t mangle
+$IP6T --policy POSTROUTING ACCEPT -t mangle
+$IP6T --delete POSTROUTING -j DROP -t mangle
+
+$IPT --delete OUTPUT -j DROP
+$IPT --delete FORWARD -j DROP
+$IP6T --delete OUTPUT -j DROP
+$IP6T --delete FORWARD -j DROP
+
 ################################################################################################
-# INPUT CHAIN 
+# INPUT CHAIN
 # begin by flushing/purging all previous INPUT rules:
 $IPT -F INPUT
 $IP6T -F INPUT
@@ -165,3 +197,4 @@ $IPT -I afwall -m state --state INVALID -j DROP
 ################################################################################################
 # iptables......-j ACCEPT -m comment --comment "this is a comment"
 ################################################################################################
+
