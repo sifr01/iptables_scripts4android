@@ -1,0 +1,70 @@
+#this script tells iptables to drop all packets
+#this script can be added to AFWall+ > Settings > Set Custom Script > [/path/to/script/drop.ipt] > OK
+
+#-----------------------------------------------------------------------------------------------
+IP6T=/system/bin/ip6tables
+IPT=/system/bin/iptables
+IP6TABLES=/system/bin/ip6tables #########################
+IPTABLES=/system/bin/iptables ###########################
+#-----------------------------------------------------------------------------------------------
+
+
+##NAT The "nat" table is not intended for filtering, the use of DROP is therefore inhibited.
+
+##FILTER----------------------------------
+$IPT --policy INPUT DROP -t filter
+$IPT --delete INPUT -j DROP
+$IPT -I INPUT 1 -j DROP
+$IP6T --policy INPUT DROP -t filter
+$IP6T --delete INPUT -j DROP
+$IP6T -I INPUT 1 -j DROP
+
+$IPT --policy OUTPUT DROP -t filter
+$IPT --delete OUTPUT -j DROP
+$IPT -I OUTPUT 1 -j DROP
+$IP6T --policy OUTPUT DROP -t filter
+$IP6T --delete OUTPUT -j DROP
+$IP6T -I OUTPUT 1 -j DROP
+
+$IPT --policy FORWARD DROP -t filter
+$IPT --delete FORWARD -j DROP
+$IPT -I FORWARD 1 -j DROP
+$IP6T --policy FORWARD DROP -t filter
+$IP6T --delete FORWARD -j DROP
+$IP6T -I FORWARD 1 -j DROP
+
+##MANGLE---------------------------------
+$IPT --policy INPUT DROP -t mangle
+$IPT --delete INPUT -j DROP -t mangle
+$IPT -I INPUT 1 -j DROP -t mangle
+$IP6T --policy INPUT DROP -t mangle
+$IP6T --delete INPUT -j DROP -t mangle
+$IP6T -I INPUT 1 -j DROP -t mangle
+
+$IPT --policy OUTPUT DROP -t mangle
+$IPT --delete OUTPUT -j DROP -t mangle
+$IPT -I OUTPUT 1 -j DROP -t mangle
+$IP6T --policy OUTPUT DROP -t mangle
+$IP6T --delete OUTPUT -j DROP -t mangle
+$IP6T -I OUTPUT 1 -j DROP -t mangle
+
+$IPT --policy FORWARD DROP -t mangle
+$IPT --delete FORWARD -j DROP -t mangle
+$IPT -I FORWARD 1 -j DROP -t mangle
+$IP6T --policy FORWARD DROP -t mangle
+$IP6T --delete FORWARD -j DROP -t mangle
+$IP6T -I FORWARD 1 -j DROP -t mangle
+
+$IPT --policy PREROUTING DROP -t mangle
+$IPT --delete PREROUTING -j DROP -t mangle
+$IPT -I PREROUTING 1 -j DROP -t mangle
+$IP6T --policy PREROUTING DROP -t mangle
+$IP6T --delete PREROUTING -j DROP -t mangle
+$IP6T -I PREROUTING 1 -j DROP -t mangle
+
+$IPT --policy POSTROUTING DROP -t mangle
+$IPT --delete POSTROUTING -j DROP -t mangle
+$IPT -I POSTROUTING 1 -j DROP -t mangle
+$IP6T --policy POSTROUTING DROP -t mangle
+$IP6T --delete POSTROUTING -j DROP -t mangle
+$IP6T -I POSTROUTING 1 -j DROP -t mangle

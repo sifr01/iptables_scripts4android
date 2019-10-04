@@ -1,0 +1,3 @@
+#this script punches holes in the host ADB device's firewall to allow an ADB connection to the phone
+iptables -I OUTPUT 2 -p tcp --dport 5037 -j ACCEPT
+iptables -I OUTPUT 2 -p udp --dport 5037 -j ACCEPT
